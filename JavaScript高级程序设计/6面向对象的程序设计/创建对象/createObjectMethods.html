@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建对象的模式和方法</title>
+</head>
+<body>
+<script>
+/*工厂模式*/
+    function createPerson(name, age, job) {
+        var o=new Object();
+        o.name=name;
+        o.age=age;
+        o.job=job;
+        o.sayName=function () {
+            console.log('Hello'+this.name);
+        };
+        return o;
+    }
+    var person1=createPerson('Cinaiet',18,'Boss');
+
+    /**优缺点
+     * 可以无数次的调用这个函数，而每次调用都会返回一个包含三个属性一个方法的对象。
+     * 虽然解决了创建多个相似对象的问题，但却没有解决对象识别的问题（即怎样知道一个对象的类型）
+     *
+     * */
+
+/*构造函数模式*/
+    function Person(name, age, job) {
+        this.name=name;
+        this.age=age;
+        this.job=job;
+        this.sayName=function () {
+            console.log('Hello,'+this.name);
+        }
+    }
+    var person2=new Person('Person2','22','deloper');
+
+
+     //构造函数的调用
+    // 可以直接当做构造函数使用
+    var person3=new Person('asd',22,'Doctor');
+    //当做普通的函数调用
+    Person('putong',33,'Nurse');//添加到window对象下
+    //在另一个对象的作用域中调用
+    var aa=new Object();
+    Person.call(aa,'aa',11,'Engineer');
+
+    //constructor最初是用来表示对象类型的，但也可以用来检测对象类型。(instanceof)
+    console.log(person2.constructor == Person);  //true
+    console.log(person2 instanceof Person);  //true
+
+    console.log(person1.constructor == createPerson); //false
+    console.log(person1 instanceof  createPerson); //false
+
+    /**构造函数优缺点
+     * 相较于工厂模式，可以利用实例标识符来检测对象的类型。
+     * 构造函数也是函数，可以直接通过new操作符来调用。
+     *缺点： 每个方法都要在每个实例悬赏重新创建一遍。
+     *      若构造函数中包含有Function实例，会导致不同的作用域链和标识符解析。
+     *      该问题可用下方法解决：
+     * */
+    function Person(name, age, job) {
+        this.name=name;
+        this.age=age;
+        this.job=job;
+        this.sayName=sayName;
+    }
+    function sayName() {
+        console.log(this.name);
+    }
+    //zh这样可以把sayName函数转移到构造函数外部，解决了两个函数做同一件事的问题。
+    //但若构造函数中需要定义多个方法，那么久需要定义多个全局函数，这样的引用就没有封装性可言了。
+
+
+/*原型模式*/
+    function prototypePerson() {
+
+    };
+    prototypePerson.prototype.name='Cinamit';
+    prototypePerson.prototype.age=26;
+    prototypePerson.prototype.sayName=function () {
+        console.log('Hello!'+this.name );
+    };
+    var personPro1=new prototypePerson();
+    var personPro2=new prototypePerson();
+
+
+    console.log(personPro1.name);
+    console.log(personPro1.sayName== personPro2.sayName);
+
+
+    //创建原型对象更简单的语法
+    function Person() {
+
+    }
+    Person.prototype={
+        name:'Cinaiet',
+        age:24,
+        job:'Engineer',
+        sayName:function () {
+            console.log('Hello'+this.name);
+        }
+
+    };
+    /**
+     * 原型函数
+     * constructor：每个函数中都有一个constructor属性，利用该属性指向其prototype.
+     * 缺点：
+     *      1.因为省略了构造函数传递初始化参数的环节，导致所有实例在默认情况下都将取得相同的属性值。
+     *      2.由于原型属性都是共享，所以在修改一个引用的时候，会改变整个原型的引用。
+     * */
+    //缺点2 案例
+    function Person() {
+
+    }
+    Person.prototype={
+        name:'Bill',
+        age:23,
+        friends:['annie','cinaiet'],
+        sayName:function () {
+            console.log(this.name);
+        }
+    };
+    var person21=new Person();
+    var person22=new Person();
+    person21.friends.push('Van');
+    console.log(person21.friends);
+    console.log(person22.friends);
+/*组合使用构造函数和原型模式(组合模式)*/
+    function Person(name,age,job) {
+        this.name=name;
+        this.age=age;
+        this.job=job;
+        this.friends=['Bill','Anine']
+
+    }
+    Person.prototype={
+        constructor:Person,
+        sayName:function () {
+            console.log(this.name);
+        }
+    };
+    var person4=new Person('Cinaiet',23,'Engineer');
+    var person5=new Person('Bill',22,'leader');
+
+    person4.friends.push('Cinaiet');
+
+    console.log(person4.friends);
+    console.log(person5.friends);
+
+/*寄生构造函数模式*/
+    function Person(name, age, job) {
+        var o=new Object();
+        o.name=name;
+        o.age=age;
+        o.job=job;
+        o.sayName=function () {
+            console.log(this.name);
+        };
+        return o;
+    }
+/*稳妥构造函数模式*/
+    function Person(name, age, job) {
+
+        //创建要返回的对象
+        var o=new Object();
+        //可以在这里定义私有变量和函数
+
+        //添加方法
+        o.sayName=function () {
+            //...
+        };
+        return o;
+    }
+</script>
+
+</body>
+</html>

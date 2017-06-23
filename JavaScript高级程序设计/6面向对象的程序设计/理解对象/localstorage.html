@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+
+
+<script>
+
+    var storage = new Storage('shoppingCar');
+
+    //清空数据
+    storage.set();
+
+    //添加矿泉水
+    var item1 = {
+        name: '矿泉水',
+        price: '5'
+    };
+
+    storage.add(item1);
+    console.log(storage.get());
+
+    //添加冰红茶
+    var item2 = {
+        name: '冰红茶',
+        price: '10'
+    };
+    storage.add(item2);
+    console.log(storage.get());
+
+
+
+
+
+
+    //数据库对象,初始化时需要给key作为数据存储的key
+    function Storage(key){
+
+        //添加一项数据
+        //value: object
+        this.add = function(value){
+            if (value){
+                var v = this.get();
+                v.push(value);
+                this.set(v);
+            }
+        };
+
+        //设置数据
+        //value: array、 null
+        this.set = function(value){
+            if(value){
+                var v = JSON.stringify(value);
+                localStorage.setItem(key, v)
+            }
+            else {
+                localStorage.removeItem(key);
+            }
+        };
+
+        //获取数据
+        this.get = function(){
+            var value = localStorage.getItem(key) || '[]';
+            return JSON.parse(value);
+        };
+    }
+</script>
+</body>
+</html>

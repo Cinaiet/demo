@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>闭包</title>
+    <style>
+        #test{
+            width: 0;
+            height: 0;
+            border-width: 20px;
+            border-style: solid;
+            border-color: transparent transparent red transparent;
+        }
+    </style>
+</head>
+
+<body>
+<div id="test"></div>
+<script>
+    /**
+     * 什么是闭包？
+     * -->  一个使用另外一个函数作用域中的变量的函数。
+     * 闭包会引用函数的整个活动对象。
+
+     *
+     * 什么是变量对象？
+     * -->  变量对象定义着一个函数中定义的参数列表，内部变量和内部函数。
+     *      变量对象是在函数被调用，但函数未初始化的时创建的，
+     *      创建变量对象的过程实际就是函数初始化的过程。
+     *
+     * 什么是活动对象？
+     * -->  活动对象实际就是变量对象在函数执行时的另一种形式。
+     *
+     * */
+    //闭包Demo
+    function assign() {
+        var ele=document.getElementById('test');
+        ele.onclick=function () {
+            //console.log(ele.id);
+        }
+    }
+    assign();
+    //在assign函数中，因为匿名函数有对ele的引用，所以该内存一直不能被释放回收。
+    //可进行如下修改。
+    function assigns() {
+        var ele=document.getElementById('test');
+        var id=ele.id;
+        ele.onclick=function () {
+            console.log(id);
+        };
+        ele=null;
+    }
+    assigns();
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>递归</title>
+</head>
+<body>
+<script>
+    //返回一个数的阶乘
+    function fact(num) {
+        if (num<=1){
+            return 1;
+        }else {
+            return num*fact(num-1);
+        }
+    }
+    console.log(fact(4));
+    //arguments.callee 指向执行的当前函数本身。
+    function facter(num) {
+        if (num<=1){
+            return 1;
+        }else {
+            return num*arguments.callee(num-1);
+        }
+    }
+    console.log(facter(3));
+</script>
+</body>
+</html>

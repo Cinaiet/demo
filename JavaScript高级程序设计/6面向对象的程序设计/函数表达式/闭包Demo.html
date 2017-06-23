@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>闭包</title>
+</head>
+<style>
+    #test{
+        width: 0;
+        height: 0;
+        border-width: 20px;
+        border-style: solid;
+        border-color: transparent transparent red transparent;
+    }
+</style>
+<body>
+<div id="test"></div>
+<script>
+
+    
+    
+
+    //5个5
+    for(var i=0;i<5;i++){
+        setTimeout(function(){
+            console.log(i);
+        },1000);
+    }
+
+    //0,1,2,3,4
+    for(let i=0;i<5;i++){
+        setTimeout(function(){
+            console.log(i);
+        },1000);
+    }
+    for(var i=0;i<5;i++){
+        (function (i) {
+            setTimeout(function () {
+                console.log(i);
+            })
+        })(i)
+    }
+
+
+    (function () {
+        for(var i=0;i<5;i++){
+            console.log(i);
+        }
+    })();
+
+
+
+
+
+    /** JSON对象
+     * 小明今年22岁，来自杭州，兴趣是电影和旅游，
+     * 她有两个姐姐，一个叫小芬，25岁，是一名医生。
+     * 还有一个叫小红，24岁，是一名老师。
+     * */
+
+    var obj={
+        "name":"xiaoming",
+        "from":"hangzhou",
+        "interest":["movies","travel"],
+        "familys":
+            [
+                {
+                  "name":"xiaofen",
+                  "age":"25",
+                  "job":"doctor"},
+                {
+                    "name":"xiaohong",
+                    "age":"24",
+                    "job":"teacher"
+                }
+                    ]
+        }
+
+
+
+
+
+
+</script>
+</body>
+</html>

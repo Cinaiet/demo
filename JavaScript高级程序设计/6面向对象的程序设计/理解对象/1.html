@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>理解对象</title>
+</head>
+<body>
+    <!--创建对象的方法
+
+
+    -->
+    <script>
+        /* 1.创建一个Object实例*/
+        var person=new Object();
+        person.name='Cinaiet';
+        person.age=29;
+        person.sayName=function () {
+            console.log('Hello'+ this.name);
+        };
+        /*2.对象字面量创建对象*/
+
+        var person={
+            name:'Cinaiet',
+            age:29,
+            sayName:function () {
+                console.log('Hello'+this.name);
+            }
+        };
+
+        /**数据属性
+         * ** 要想修改属性默认的特性，必须使用Object.definProperty()方法
+         *
+         * configurable表示能否通过delete删除属性从而重新定义属性。
+         * enumerable表示能否通过for-in循环返回属性。
+         * writable表示能否修改属性的值。
+         * Value 包含这个属性的数据值。
+         *
+         * */
+
+        var person={};
+        Object.defineProperty(person,'name',{
+            writable:false,  //为false时value不允许修改。
+            value:'money'
+        });
+        console.log(person.name);
+        person.name='more money';
+        console.log(person.name);
+
+        var person={};
+        Object.defineProperty(person,'name',{
+            configurable:false,
+            writable:true,
+            value:'test'
+        });
+        console.log(person.name);
+        person.name='test change';
+        console.log(person.name);
+
+        /****访问器属性
+         * 包含一对getter和setter函数。
+         * configurable表示能否通过delete删除属性从而重新定义属性。
+         * enumerable表示能否通过for-in循环返回属性。
+         * get在读取时调用的函数。
+         * set在写入时调用的函数。
+         *
+         * */
+
+        var book={
+            _year:2001,
+            edition:1
+        };
+        Object.defineProperty(book,'year',{
+            get:function () {
+                return this._year
+            },
+            set:function (newValue) {
+                if (newValue>2004){
+                    this._year=newValue;
+                    this.edition+=newValue-2004;
+                }
+            }
+        });
+
+        book.year=2005;
+        console.log(book.edition);
+
+
+
+
+    </script>
+
+</body>
+</html>
