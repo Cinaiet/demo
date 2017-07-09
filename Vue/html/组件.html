@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件</title>
+</head>
+<body>
+<script src="../node_modules/vue/dist/vue.min.js"></script>
+    <div id="app">
+        <one-example></one-example>
+        <two-example></two-example>
+        <three-example></three-example>
+        <three-example></three-example>
+        <three-example></three-example>
+        <four-example message="four"></four-example>
+        <five-example></five-example>
+        <five-example></five-example>
+        <br>
+        <span></span>
+
+        <br>
+        <six-example v-on:plus="value"></six-example>
+        <six-example v-on:plus="value"></six-example>
+        <br>
+        <span>{{count}}</span>
+        <br><br>
+
+
+        <br>
+        <seven-exam data="firstData"></seven-exam>
+        <br><br>
+        <eight-exam v-on:plus="plusSum"></eight-exam>
+        <eight-exam v-on:plus="plusSum"></eight-exam>
+        <span>{{sum}}</span>
+    </div>
+
+    <div id="app2">
+        <currency-input v-model="price"></currency-input>
+    </div>
+<script>
+
+    Vue.component('currency-input',{
+         template:`
+            <span>
+                $
+                <input ref="input"
+                       v-bind:value="value"
+                       v-on:input="updateValue($event.target.value)"
+                >
+            </span>
+         `,
+        props:['value'],
+        methods:{
+            updateValue:function (value) {
+                var formattedValue=value
+                        .trim()
+                        //保留两位小数
+                        .slice(
+                                0,
+                                value.indexOf('.')===-1
+                                ? value.length:
+                                value.indexOf('.')+3
+                        );
+                if (formattedValue !== value){
+                    this.$refs.input.value=formattedValue;
+                }
+                this.$emit('input',Number(formattedValue));
+            }
+        }
+    });
+
+
+    var app2=new Vue({
+        el:'#app2',
+        data:{
+            price:''
+        }
+
+    });
+
+    Vue.component('eight-exam',{
+        template:'<button v-on:click="plus">{{count}}</button>',
+        data:function () {
+            return {
+                count:0
+            }
+        },
+        methods:{
+            plus:function () {
+                this.count+=1;
+                this.$emit('plus');
+            }
+        }
+    });
+
+    Vue.component('seven-exam',{
+        template:'<p>{{message}}</p>',
+        props:['data']
+    });
+
+    Vue.component('six-example',{
+        template:'<button v-on:click="plus">{{counts}}</button>',
+        data:function () {
+            return {
+                counts:0
+            }
+        },
+        methods:{
+            plus:function () {
+                this.counts+=1;
+                this.$emit('plus');
+            }
+        }
+    });
+
+    Vue.component('five-example',{
+        template:'<button v-on:click="plus">{{message}}</button>',
+        data:function () {
+            return {
+                message:0
+            }
+        },
+        methods:{
+            plus:function () {
+                this.message+=1;
+                this.$emit('plus');
+            }
+        }
+    });
+
+    Vue.component('four-example',{
+        template:'<p>{{message}}</p>',
+        props:['message']
+    });
+
+    Vue.component('one-example',{
+        template:'<p>渲染一个简单的组件</p>'
+    });
+    var message='这里面的data，必须是一个方法，不然不能正常渲染';
+    Vue.component('two-example',{
+        template:'<p>{{message}}</p>',
+        data:{
+            message:function () {
+                return message;
+            }
+        }
+    });
+    Vue.component('three-example',{
+        template:'<button v-on:click="count+=1">{{count}}</button>',
+        data:function () {
+            return {
+                count:0
+            }
+        }
+    });
+    var app=new Vue({
+        el:'#app',
+        data:{
+            count:0,
+            total:0,
+            sum:0
+        },
+        methods:{
+            value:function () {
+                this.count+=1;
+            },
+            counts:function () {
+                this.total+=1;
+            },
+            plusSum:function () {
+                this.sum+=1;
+            }
+
+            
+        }
+    });
+
+
+</script>
+</body>
+</html>

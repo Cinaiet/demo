@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SVG环形进度条</title>
+    <style>
+        svg {
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            stroke: yellowgreen;
+            fill: none;
+            transform: rotate(-90deg);
+
+            stroke-dasharray: 252%; /*周长*/
+            stroke-dashoffset: 252%;/*周长*/
+        }
+    </style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg">
+    <circle id="circle" cx="50%" cy="50%" r="40%" stroke-width="10%"></circle>
+</svg>
+
+<script>
+    var circle = document.getElementById("circle");
+    var rangeValue = 0;
+    var girth = Math.ceil(2 * Math.PI * 40);
+    (function () {
+        circle.setAttribute("stroke-dashoffset", girth-rangeValue + "%");
+        if(++rangeValue <= girth){
+
+            setTimeout(arguments.callee, 10);
+        }
+    })();
+</script>
+</body>
+</html>

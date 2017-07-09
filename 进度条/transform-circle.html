@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>circle</title>
+    <style>
+        .wrapper{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 200px;
+            margin: -50px 0 0 -100px;
+
+            animation-name: wrapper; /* 动画名称 */
+            animation-duration: 10s;  /* 完成一个动画需要的时间 */
+            animation-timing-function: linear; /* 动画播放的方式，linear是匀速变化 */
+            animation-iteration-count: infinite;  /* 动画播放的次数，infinite是无限次数 */
+        }
+
+        .wrapper>div{
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            border:20px solid transparent;
+            border-radius: 50%;
+            top:0;
+            right: 0;
+            border-top:20px solid green;
+            border-right:20px solid green;
+
+            animation-duration: 10s;  /* 完成一个动画需要的时间 */
+            animation-timing-function: linear; /* 动画播放的方式，linear是匀速变化 */
+            animation-iteration-count: infinite;  /* 动画播放的次数，infinite是无限次数 */
+        }
+
+
+        .circle-left{
+            transform : rotate(45deg); /* 旋转45度时正好能显示半个圆，旋转-135度，正好能隐藏半个圆 */
+            animation-name: circleLeft; /* 动画名称 */
+
+        }
+
+        .circle-right{
+            transform : rotate(-135deg); /* 旋转45度时正好能显示半个圆，旋转-135度，正好能隐藏半个圆 */
+            animation-name: circleRight; /* 动画名称 */
+        }
+
+
+        @keyframes wrapper{
+            from {
+                overflow: hidden;
+            }
+            to {
+                overflow: visible;
+            }
+        }
+
+        @keyframes circleLeft{
+            0%{
+                opacity: 0;
+            }
+            49.99%{
+                opacity: 0;
+            }
+            50%{
+                opacity: 1;
+                transform : rotate(45deg);
+            }
+            100%{
+                transform : rotate(225deg);
+            }
+        }
+
+        @keyframes circleRight{
+            0%{
+                transform : rotate(-135deg);
+            }
+            50%{
+                transform : rotate(45deg);
+            }
+            100%{
+                transform : rotate(45deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="circle-left"></div>
+        <div class="circle-right"></div>
+    </div>
+</body>
+</html>

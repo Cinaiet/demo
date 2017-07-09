@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单控件</title>
+</head>
+<body>
+<div id="app">
+    <input type="checkbox" id="1" value="1" v-model="checkName"> <babel for="1">1</babel>
+    <input type="checkbox" id="2" value="2" v-model="checkName"> <babel for="2">2</babel>
+    <input type="checkbox" id="3" value="3" v-model="checkName"> <babel for="3">3</babel>
+    <input type="checkbox" id="4" value="4" v-model="checkName"> <babel for="4">4</babel>
+    <br>
+    <span>选中的有：{{checkName}}</span>
+    <br>
+    <input type="radio" value="123" v-model="checkone" id="123"> <babel for="123">123</babel>
+    <br>
+    <input type="radio" value="456" v-model="checkone" id="456"> <babel for="456">456</babel>
+    <br>
+    <span>选中的值是:{{checkone}}</span>
+    <br>
+    <select name="" id="" v-model="selected">
+        <option value="" disabled>请选择</option>
+        <option >1</option>
+        <option >2</option>
+        <option >3</option>
+        <option >4</option>
+    </select>
+    <span>你选择的是: {{selected}}</span>
+</div>
+
+<script src="../node_modules/vue/dist/vue.min.js"></script>
+<script>
+    var app=new Vue({
+        el:'#app',
+        data:{
+            checkName:[],
+            checkone:'',
+            selected:''
+        }
+
+    })
+</script>
+</body>
+</html>
