@@ -1,0 +1,65 @@
+/**
+ * Created by ranwei on 2017/7/10.
+ */
+
+var path=require('path');
+
+module.exports={
+    entry:'./js/index.js',
+    output:{
+        filename:'bundles.js',
+        path:path.resolve(__dirname,'dist')
+    },
+    module:{
+        rules:[
+            {
+                //加载css
+                test:/\.css$/,
+                use:[
+                    'style-loader',
+                    'css-loader'
+                ]
+            },
+            {
+                test:/\.js$/,
+                use:[
+                    {
+                        loader:'babel-loader',
+                        options:{
+                            presets:['es2015'],
+                            plugins:['transform-object-rest-spread']
+                        }
+                    }
+                ],
+                exclude:/node_modules/
+            },
+            {
+                test:/\.(png|jpg)$/,
+                use:'file-loader'
+            },
+            {
+                //加载Vue
+                test:/\.vue$/,
+                use:[{
+                    loader:'vue-loader',
+                    options:{
+                        loaders:{
+                            js:'babel-loader?{"presets":["es2015"],"plugins": ["transform-object-rest-spread"]}',
+                            css:'vue-style-loader!css-loader'
+                        }
+                    }
+                }],
+                exclude:/node_modules/
+            }
+        ]
+    },
+    resolve:{
+        extensions:[
+            'js',
+            'vue'
+        ],
+        alias:{
+            vue:resolve(__dirname,'node_modules','vue','dist','vue.min.js')
+        }
+    }
+};
