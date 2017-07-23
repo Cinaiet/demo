@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>交互</title>
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+    <script src="../node_modules/vue-resource/dist/vue-resource.min.js"></script>
+    <script>
+        window.onload=function () {
+            var app1=new Vue({
+                el:'#app1',
+                data:{
+
+                },
+                methods:{
+                    getTxt:function () {
+                        this.$http.get('a.txt').then(function (res) {
+                            alert(res.data)
+                        },function (error) {
+                            alert(error.status);
+                        })
+                    },
+                    getServer:function () {
+                        this.$http.get('get.php',{
+                            a:1,
+                            b:2
+                        }).then(function (res) {
+                            alert(res.data)
+                        },function (error) {
+                            alert(error.status);
+                        })
+                    },
+                    postServer:function () {
+                        this.$http.post('post.php',{
+                            a:1,
+                            b:2
+                        },{
+                            emulateJSON:true
+                        }).then(function (res) {
+                            console.log(res.data);
+                        },function (error) {
+                            console.log(error.status);
+                        })
+                    },
+                    jsonPData:function () {
+                        // url :https://sug.so.360.cn/suggest?callback=suggest_so&word=a
+                        this.$http.jsonp('https://sug.so.360.cn/suggest',{
+                            word:'a'
+                        },{emulateJSON:true}).then(function (res) {
+                            console.log(res.data.s);
+                            alert(res.data.s);
+                        },function (error) {
+                            alert(error.status);
+                        })
+
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<div id="app1">
+    <input type="button" value="获取本地数据" @click="getTxt()">
+    <br><br>
+    <input type="button" value="获取服务器数据" @click="getServer()">
+    <br><br>
+    <input type="button" value="发送服务器数据" @click="postServer()">
+    <br><br>
+    <input type="button" value="使用JSONP获取数据" @click="jsonPData()">
+</div>
+
+</body>
+</html>
