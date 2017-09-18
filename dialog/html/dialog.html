@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>模拟弹出框</title>
+    <link rel="stylesheet" href="../css/alert.css">
+    <style>
+        body{
+            text-align: center;
+        }
+        button{
+            width:70%;
+            height: 30px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <button class="btn alert">alert</button>
+    <button class="btn confirm">confirm</button>
+    <button class="btn loading">loading</button>
+    <button class="btn tosi">tosi</button>
+    <button class="btn tosi-success">tosi-success</button>
+    <button class="btn tosi-error">tosi-error</button>
+    <script src="../js/jquery-3.0.0.min.js"></script>
+    <script src="../js/function.js"></script>
+    <script src="../js/alert.js"></script>
+    <script>
+        var C = {};
+        C.alert = function (data) {
+            data.type = 'alert';
+            data.width = '270px';
+            data.title = '温馨提示';
+            data.okText = data.okText ? data.okText : "知道了";
+            return $.dialog(data);
+        };
+
+        C.confirm = function (data) {
+            data.type = 'confirm';
+            data.width = '270px';
+            return $.dialog(data);
+        };
+
+        C.loading = function (con) {
+            return $.dialog({content: con, titleIcon: "load", width: '230px', type: "loading"});
+        };
+
+        C.tusiSuccess = function (con) {
+            return $.dialog({content: con, titleIcon: "success", width: '230px', type: "tusi", time: 3000});
+        };
+
+        C.tusiError = function (con) {
+            return $.dialog({content: con, titleIcon: "error", width: '230px', type: "tusi", time: 3000});
+        };
+
+        C.tusi = function (con) {
+            return $.dialog({content: con, width: '230px', type: "tusi", time: 3000});
+        };
+
+        $(".alert").click(function () {
+            C.alert({
+                content: "邮件发送成功",
+                ok: function () {
+                    alert("确认成功");
+                },
+            })
+        });
+        $(".confirm").click(function () {
+            C.confirm({
+                title: "温馨提示",
+                content: "Cinaiet最美了是吧？",
+                ok: function () {
+                    alert("是挺美。");
+                },
+                cancel: function () {
+                    alert("最美最美最美了。");
+                }
+            })
+        });
+        $(".loading").click(function () {
+            C.loading("稍等，我最美了。。");
+        });
+        $(".tosi").click(function () {
+            C.tusi("稍等，我最美了。。");
+        });
+        $(".tosi-error").click(function () {
+            C.tusiError("稍等，我最美了。。");
+        });
+        $(".tosi-success").click(function () {
+            C.tusiSuccess("稍等，我最美了。。");
+        });
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>上拉加载</title>
+    <style>
+        html,body{
+            overflow-x: hidden;
+            overflow-y: scroll;
+            padding: 0;
+            margin: 0;
+        }
+        ul{
+            padding: 0;
+            margin: 0;
+            text-decoration: none;
+        }
+        li{
+            padding-left: 20px;
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            margin-top: 20px;
+            background-color: #c23a3f;
+            color: #fff;
+
+        }
+        .lazy-more{
+            padding-left: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li>这是一首简单的小情歌。</li>
+        <li>这是一首简单的小情歌。</li>
+        <li>这是一首简单的小情歌。</li>
+        <li>这是一首简单的小情歌。</li>
+        <li>这是一首简单的小情歌。</li>
+        <li>这是一首简单的小情歌。</li>
+        <li>这是一首简单的小情歌。</li>
+        <li>这是一首简单的小情歌。</li>
+        <li>这是一首简单的小情歌。</li>
+        <li>这是一首简单的小情歌。</li>
+        <li>这是一首简单的小情歌。</li>
+        <li>这是一首简单的小情歌。</li>
+    </ul>
+    <div class="lazy-more">加载更多</div>
+
+
+    <script src="../js/jquery-3.0.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            var num=0,
+                maxnum=0,
+                totalheight=0;
+
+
+
+            //监听滚动高度，加载数据
+            $(window).on('scroll',function () {
+                var srollPos = $(window).scrollTop(); //滚动条距顶部距离(页面超出窗口的高度)
+                //console.log("滚动条到顶部的垂直高度: " + $(document).scrollTop());
+                //console.log("页面的文档高度 ："+$(document).height());
+                //console.log('浏览器的高度：'+$(window).height());
+                totalheight = parseFloat($(window).height()) + parseFloat(srollPos);
+
+                if (num>=maxnum){
+                    return;
+                }
+                if (($(document).height()-range)<=totalheight&&num<maxnum){
+                    //这里不能使用模板填充，应该是append()....
+
+                }
+            });
+
+
+
+            function getData() {
+
+                //一个数据请求的方式。，
+
+
+
+            }
+
+
+            //友惠佳商城demo
+            function ajaxGetShopData() {
+                if (flag){
+                    return;
+                }
+                $('.loading').show();
+                flag=1;
+                $.ajax({
+                    url:uri,
+                    type:'get',
+                    dataType:'json',
+                    data:{
+                        categoryId:categoryId,
+                        orderType:orderType,
+                        start:start,
+                        length:pageLength,
+                        minMaxPrice:minMaxPrice,
+                        minMaxSales:minMaxSales
+                    },
+                    success:function (response) {
+                        if (response.result=='success'){
+
+                            $('.loading').hide();
+                            num++;
+                            var data=response.data;
+                            maxnum=data['productCount'];
+                            start=num*pageLength;
+                            if(maxnum == 0){
+                                $(".no-info").show();
+                            }
+
+                            //console.log(data);
+
+                            console.log(data.products.length);
+                            if (data.products.length>0){
+                                $('#dis-list-vessel').append(shopTemplate(data));
+                            }else {
+                                $(".no-info").show();
+                                num=maxnum+1;
+                            }
+                            flag=0;
+                        }
+                    }
+                })
+            }
+
+
+        })
+    </script>
+</body>
+</html>
